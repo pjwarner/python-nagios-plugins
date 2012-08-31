@@ -1,4 +1,8 @@
+*~
 *.py[co~]
+
+\#*\#
+.\#*
 
 # Packages
 *.egg
@@ -25,7 +29,3 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
-<<<<<<< HEAD
-
-=======
->>>>>>> 2f43273316b8432e4643aadfd04ce823158957b8
