@@ -9,9 +9,10 @@ MONTHLY_CAP = 250000
 DAILY_CAP = MONTHLY_CAP/30
 
 def get_ssh_conn():
+    key = paramiko.RSAKey.from_private_key_file('/var/lib/nagios/.ssh/id_rsa')
     ssh=paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect('10.10.10.1', username='root')
+    ssh.connect('10.10.10.1', username='root', pkey=key)
     return ssh
 
 def main():
@@ -108,3 +109,4 @@ if __name__ == '__main__':
         print output
         sys.exit(2)
         
+
