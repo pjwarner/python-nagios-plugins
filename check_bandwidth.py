@@ -5,7 +5,7 @@ import paramiko
 from datetime import date
 from optparse import OptionParser
 
-MONTHLY_CAP = 250000
+MONTHLY_CAP = float(250000)
 DAILY_CAP = MONTHLY_CAP/30
 
 def get_ssh_conn():
@@ -62,18 +62,18 @@ def get_today_usage(critical=0.95, warning=0.90):
     return daily_status(int(ul) + int(dl), critical, warning)
     
     
-def monthly_status(usage,critical,warning):
-    if usage > (float(MONTHLY_CAP) * float(critical)):
+def monthly_status(usage, critical, warning):
+    if usage > (MONTHLY_CAP * critical):
         return 'CRITICAL - Monthly Cap:%0.2fGB  Usage:%0.2fGB' % ((MONTHLY_CAP/1000.00), (usage/1000.00))
-    elif usage > (float(MONTHLY_CAP) * float(warning)):
+    elif usage > (MONTHLY_CAP * warning):
         return 'WARNING - Monthly Cap:%0.2fGB  Usage:%0.2fGB' % ((MONTHLY_CAP/1000.00), (usage/1000.00))
     else:
         return 'OK - Monthly Cap:%0.2fGB  Usage:%0.2fGB' % ((MONTHLY_CAP/1000.00), (usage/1000.00))
 
-def daily_status(usage,critical,warning):
-    if usage > (float(DAILY_CAP) * float(critical)):
+def daily_status(usage, critical, warning):
+    if usage > (DAILY_CAP * critical):
         return 'CRITICAL - Daily Cap:%0.2fGB  Usage:%0.2fGB' % ((DAILY_CAP/1000.00), (usage/1000.00))
-    elif usage > (float(DAILY_CAP) * float(warning)):
+    elif usage > (DAILY_CAP * warning):
         return 'WARNING - Daily Cap:%0.2fGB  Usage:%0.2fGB' % ((DAILY_CAP/1000.00), (usage/1000.00))
     else:
         return 'OK - Daily Cap:%0.2fGB  Usage:%0.2fGB' % ((DAILY_CAP/1000.00), (usage/1000.00))
@@ -84,9 +84,9 @@ if __name__ == '__main__':
                       help='Do Monthly Usage Check')
     parser.add_option('-d', '--daily', action="store_true", dest="day", default=False,
                       help='Do Daily Usage Check')
-    parser.add_option('-c', '--critical', action='store', type='string', dest='critical', default='0.95',
+    parser.add_option('-c', '--critical', action='store', type='float', dest='critical', default='0.95',
                       help='Set CRITICAL level (as percent eg. 0.95)')
-    parser.add_option('-w', '--WARNING', action='store', type='string', dest='warning', default='0.90',
+    parser.add_option('-w', '--WARNING', action='store', type='float', dest='warning', default='0.90',
                       help='Set WARNING level (as percent eg. 0.90)')
     (options, args) = parser.parse_args()
 
@@ -109,4 +109,5 @@ if __name__ == '__main__':
         print output
         sys.exit(2)
         
+
 
